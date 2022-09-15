@@ -84,7 +84,14 @@ export async function downloadAndInstallRos2NugetPackages(): Promise<number> {
 	// can't properly find them.  The Windows image that is currently available
 	// to GitHub actions (https://github.com/actions/virtual-environments/blob/win19/20200608.1/images/win/Windows2019-Readme.md)
 	// doesn't seem to have this key, so add it by hand here.
-	await utils.exec("reg", ["add", "HKCU\\SOFTWARE\\Kitware\\CMake", "/f"]);
+	
+	try
+	{
+	    await utils.exec("reg", ["add", "HKCU\\SOFTWARE\\Kitware\\CMake", "/f"]);
+        }		
+	catch(...)
+	{
+	}
 	return utils.exec(
 		"choco",
 		chocoCommandLine.concat("--source", ".").concat(ros2ChocolateyPackages)
